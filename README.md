@@ -19,8 +19,4 @@
 ## Graphical mode
 - Here the things are a bit more complicated, you should create your own discord bot, fortunately you don't have to write the bot code by yourself, all you need is to follow any tutorial on YouTube "How to create a Discord bot with python". When you will see the beginning of actual coding, just copy token from your [Discord Bots App](https://discord.com/developers/applications) into ``bot.py (line 20)`` file.
 - After all, run the ``console: python3 bot.py`` and run ``\help`` in any Discord chat that can be observed be your bot. You will get all information about game with GUI.  
--dsd
-- dasds
--dasda
-- 
 
