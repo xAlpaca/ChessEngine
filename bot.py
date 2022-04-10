@@ -1,35 +1,25 @@
 import math
-
 import discord
 from discord import File
 from discord.ext import commands
 from discord.ext.commands import Bot
 import string
 import datetime
-# import psycopg2
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import random
 import asyncio
-import itertools
-import ChessEngine2
+import ChessEngine
 
 matrix = np.array([[], []])
 intents = discord.Intents.default()
 intents.members = True
 intents.messages = True
-Bot = commands.Bot(command_prefix = "$:", intents=intents, guild_subscriptions=True, help_command=None)
-# conn = psycopg2.connect(
-#     host="localhost",
-#     database="test",
-#     user="postgres",
-#     password="ktfm48tm956mif_2005",
-#     port='5432',
-# )
-token = 'NzY3NzE0NjE5NTc3NDY2ODkx.X4179A.DCxho027iK6rwWq2WP93weyOnmo'
-client = discord.Client()
+Bot = commands.Bot(command_prefix = "\\", intents=intents, guild_subscriptions=True, help_command=None)
 
-chessboard = ChessEngine2.ChessBoard
+token = 'NzY3NzE0NjE5NTc3NDY2ODkx.X4179A.BRjPvv6tNz-4gxMKqV7IJ5NToZU'
+client = discord.Client()
+chessboard = ChessEngine.ChessBoard
 chessboard.fill_board(chessboard)
 chessboard.import_game(chessboard, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
 
@@ -60,7 +50,7 @@ def to_upper(argument):
 
 @Bot.event
 async def on_ready():
-    print(f'Bot is now working, {Bot.user}. {len(Bot.guilds)} And right now i see {len(Bot.users)} humans and girls')
+    print(f'Bot is now online, {Bot.user}. {len(Bot.guilds)} And right now i see {len(Bot.users)} users')
     for server in Bot.guilds:
         print(server.name)
         server_channels = server.channels
@@ -307,19 +297,22 @@ async def clear(ctx, *args): # arg = amount msg to clear
         await ctx.channel.purge(limit=1, check=is_me)
 @Bot.command()
 async def help(ctx):
-    embed = discord.Embed(title='Hi, Plane bot is now in developing :))', description='Bot creator: TUHNN#9437/alermgm@gmail.com', color=discord.Color.green())
+    embed = discord.Embed(title='Hi, Plane bot is now in developing :))',
+                          description='Bot developer: TUHNN#9437/alermgm@gmail.com', color=discord.Color.green())
     embed.add_field(name='Command list', value='*More commands going to be added*')
-    embed.add_field(name=f'$:serverInfo members', value='Returns list of all server members')
-    embed.add_field(name=f'$:serverInfo members @member/member ID', value='Returns member profile information')
-    embed.add_field(name=f'$:serverInfo channels', value='Returns list of all server channels')
-    embed.add_field(name=f'$:serverInfo channels #channel/channel ID', value='Returns channel information')
-    embed.add_field(name=f'$:serverInfo roles', value='Returns list of all server roles')
-    embed.add_field(name=f'$:serverInfo roles @role/role ID',
+    embed.add_field(name=f'\serverInfo members', value='Returns list of all server members')
+    embed.add_field(name=f'\serverInfo members @member/member ID', value='Returns member profile information')
+    embed.add_field(name=f'\serverInfo channels', value='Returns list of all server channels')
+    embed.add_field(name=f'\serverInfo channels #channel/channel ID', value='Returns channel information')
+    embed.add_field(name=f'\serverInfo roles', value='Returns list of all server roles')
+    embed.add_field(name=f'\serverInfo roles @role/role ID',
                     value='Returns role information and list of members with this role')
-    embed.add_field(name=f'$:member_move #channel/channel ID', value='Moves member to voice channel.')
-    embed.add_field(name=f'$:send_message', value='Sends the same message')
-    embed.add_field(name=f'$:draw 1-500', value='Just test image')
-    embed.add_field(name=f'$:clear [int]', value='Delete messages in the channel')
+    embed.add_field(name=f'\member_move #channel/channel ID', value='Moves member to voice channel.')
+    embed.add_field(name=f'\send_message', value='Sends the same message')
+    embed.add_field(name=f'\draw 1-500', value='Just test image')
+    embed.add_field(name=f'\clear [int]', value='Delete messages in the channel')
+    embed.add_field(name=f'\chess e2e4', value='Use UCI chess format please. ')
+
     await ctx.send(embed=embed)
 @Bot.command()
 async def member_move(ctx, *args):
@@ -359,28 +352,30 @@ async def chess(ctx, *args):
 
 
 
-    background = Image.open("chessboard1.png").resize((1050,1050), Image.ANTIALIAS) #1050x1050
+    background = Image.open("static/chessboard1.png").resize((1050,1050), Image.ANTIALIAS) #1050x1050
 
-    drw = ImageDraw.Draw(background, 'RGBA')
+    # drw = ImageDraw.Draw(background, 'RGBA')
 
-    black_pawn = Image.open("Chess_pdt60.png").resize((100, 100), Image.ANTIALIAS)
-    white_pawn = Image.open("Chess_plt60.png").resize((100, 100), Image.ANTIALIAS)
-    black_rook = Image.open("Chess_rdt60.png").resize((100, 100), Image.ANTIALIAS)
-    white_rook = Image.open("Chess_rlt60.png").resize((100, 100), Image.ANTIALIAS)
-    black_bishop = Image.open("Chess_bdt60.png").resize((100, 100), Image.ANTIALIAS)
-    white_bishop = Image.open("Chess_blt60.png").resize((100, 100), Image.ANTIALIAS)
-    black_knight = Image.open("Chess_ndt60.png").resize((100, 100), Image.ANTIALIAS)
-    white_knight = Image.open("Chess_nlt60.png").resize((100, 100), Image.ANTIALIAS)
-    black_quine = Image.open("Chess_qdt60.png").resize((100, 100), Image.ANTIALIAS)
-    white_quine = Image.open("Chess_qlt60.png").resize((100, 100), Image.ANTIALIAS)
-    black_king = Image.open("Chess_kdt60.png").resize((100, 100), Image.ANTIALIAS)
-    white_king = Image.open("Chess_klt60.png").resize((100, 100), Image.ANTIALIAS)
+    black_pawn = Image.open("static/Chess_pdt60.png").resize((100, 100), Image.ANTIALIAS)
+    white_pawn = Image.open("static/Chess_plt60.png").resize((100, 100), Image.ANTIALIAS)
+    black_rook = Image.open("static/Chess_rdt60.png").resize((100, 100), Image.ANTIALIAS)
+    white_rook = Image.open("static/Chess_rlt60.png").resize((100, 100), Image.ANTIALIAS)
+    black_bishop = Image.open("static/Chess_bdt60.png").resize((100, 100), Image.ANTIALIAS)
+    white_bishop = Image.open("static/Chess_blt60.png").resize((100, 100), Image.ANTIALIAS)
+    black_knight = Image.open("static/Chess_ndt60.png").resize((100, 100), Image.ANTIALIAS)
+    white_knight = Image.open("static/Chess_nlt60.png").resize((100, 100), Image.ANTIALIAS)
+    black_quine = Image.open("static/Chess_qdt60.png").resize((100, 100), Image.ANTIALIAS)
+    white_quine = Image.open("static/Chess_qlt60.png").resize((100, 100), Image.ANTIALIAS)
+    black_king = Image.open("static/Chess_kdt60.png").resize((100, 100), Image.ANTIALIAS)
+    white_king = Image.open("static/Chess_klt60.png").resize((100, 100), Image.ANTIALIAS)
 
     id = 0
     for x in range(1, 9):
         for y in range(1, 9):
             y_cord = math.floor((1000*(x/8))-87)
             x_cord = math.floor((1000*(y/8))-90)
+            # if x == 3:
+            #     drw.polygon(xy=[(0,0),(0,50), (50,50), (50,0)], fill=(255, 0, 0, 50))
 
             if chessboard.squares[id][2] == "p":
                 background.paste(black_pawn, (x_cord, y_cord), black_pawn)
@@ -409,17 +404,22 @@ async def chess(ctx, *args):
 
 
             id += 1
-    # drw.polygon(xy=[(50, 0)], fill=(255, 0, 0, 125))
+
+
 
     background.save("temp.png")
 
     file = discord.File('temp.png')
 
+    embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)  # creates embed
 
+    file = discord.File("temp.png", filename="image.png")
+    embed.set_image(url="attachment://image.png")
+    embed.add_field(name=f'Stats:', value=f'*{chessboard.show_chessboard(chessboard)}*')
+    embed.add_field(name=f'Evaluation:', value=f'*{chessboard.evaluate(chessboard)}*')
 
+    await ctx.send(file=file, embed=embed)
 
-
-    await ctx.send(file=file)
 
 
 Bot.run(str(token))
